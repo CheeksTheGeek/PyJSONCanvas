@@ -1,5 +1,5 @@
 # sample.py
-from jsoncanvas import (
+from pyjsoncanvas import (
     Canvas,
     TextNode,
     FileNode,

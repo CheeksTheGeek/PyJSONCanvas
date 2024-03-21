@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: jsoncanvas
+Version: 0.1.0
+Summary: A simple library for working with JSON Canvas (previously known as Obsidian Canvas) files.
+Home-page: https://github.com/cheeksthegeek/pyjsoncanvas
+Author: Chaitanya Sharma
+License: MIT
