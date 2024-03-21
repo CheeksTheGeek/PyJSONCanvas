@@ -8,5 +8,5 @@ setup(
     author="Chaitanya Sharma",
     url="https://github.com/cheeksthegeek/pyjsoncanvas",
     license="MIT",
-    py_modules=["jsoncanvas"],
+    py_modules=["pyjsoncanvas"],
 )
