@@ -1,6 +1,6 @@
-# JsonCanvas Python Library
+# PyJSONCanvas
 
-JsonCanvas is a Python library for working with JSON Canvas (previously known as Obsidian Canvas) files. It provides a simple and intuitive API for creating, editing, and manipulating canvas objects, nodes, and edges.
+PyJSONCanvas is a Python library for working with JSON Canvas (previously known as Obsidian Canvas) files. It provides a simple and intuitive API for creating, editing, and manipulating canvas objects, nodes, and edges.
 
 ## Features
 
@@ -13,18 +13,18 @@ JsonCanvas is a Python library for working with JSON Canvas (previously known as
 
 ## Installation
 
-You can install JsonCanvas using pip:
+You can install PyJSONCanvas using pip:
 
 ```
-pip install jsoncanvas
+pip install PyJSONCanvas
 ```
 
 ## Usage
 
-Here's a basic example of how to use JsonCanvas:
+Here's a basic example of how to use PyJSONCanvas:
 
 ```python
-from jsoncanvas import (
+from pyjsoncanvas import (
     Canvas,
     TextNode,
     FileNode,
@@ -71,16 +71,16 @@ connections = loaded_canvas.get_connections(text_node.id)
 
 ## Documentation
 
-The JsonCanvas library is well-documented, and you can find detailed information about all the available classes, methods, and exceptions in the docstrings and code comments.
+The PyJSONCanvas library is well-documented, and you can find detailed information about all the available classes, methods, and exceptions in the docstrings and code comments.
 
 ## Contributing
 
-We welcome contributions to JsonCanvas! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the [GitHub repository](https://github.com/cheeksthegeek/jsoncanvas).
+We welcome contributions to PyJSONCanvas! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the [GitHub repository](https://github.com/cheeksthegeek/PyJSONCanvas).
 
 ## License
 
-JsonCanvas is released under the [MIT License](https://opensource.org/licenses/MIT).
+PyJSONCanvas is released under the [MIT License](https://opensource.org/licenses/MIT).
 
 ## Support
 
-If you have any questions or need further assistance, please open an issue on the [GitHub repository](https://github.com/cheeksthegeek/jsoncanvas) or contact the maintainers.
+If you have any questions or need further assistance, please open an issue on the [GitHub repository](https://github.com/cheeksthegeek/PyJSONCanvas) or contact the maintainers.
