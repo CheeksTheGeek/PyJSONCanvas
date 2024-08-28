@@ -71,7 +71,7 @@ connections = loaded_canvas.get_connections(text_node.id)
 
 ## Documentation
 
-The PyJSONCanvas library is well-documented, and you can find detailed information about all the available classes, methods, and exceptions in the docstrings and code comments.
+For full documentation, please see the [PyJSONCanvas Documentation](docs/PyJSONCanvas.md).
 
 ## Contributing
 
