@@ -1,10 +1,65 @@
 # models.py
-from typing import Dict, Any
-from dataclasses import dataclass
+import sys
+from dataclasses import field
+from typing import Any, Dict
+
+# Check Python version
+PY_310_OR_HIGHER = sys.version_info >= (3, 10)
+
+# Use conditional dataclass decorator based on Python version
+if PY_310_OR_HIGHER:
+    def version_compatible_dataclass(*args, **kwargs):
+        from dataclasses import dataclass
+        return dataclass(*args, **kwargs)
+else:
+    def version_compatible_dataclass(*args, **kwargs):
+        """Emulate kw_only behavior for Python < 3.10"""
+        from dataclasses import dataclass, _MISSING_TYPE
+        
+        # Store if kw_only was requested
+        kw_only_requested = kwargs.pop('kw_only', False)
+        
+        # Define a class decorator that will process the class
+        def wrap(cls):
+            # Apply standard dataclass decorator first
+            dc_cls = dataclass(**kwargs)(cls)
+            
+            # If kw_only was requested, we need to modify the __init__ method
+            if kw_only_requested or True: ## always allow extra fields
+                # Get the original __init__ method
+                orig_init = dc_cls.__init__
+                
+                # Get the field names from the dataclass
+                field_names = set(f.name for f in dc_cls.__dataclass_fields__.values())
+                
+                # Create a new __init__ that emulates keyword-only arguments
+                # and ignores extra keywords
+                def __init__(self, **kwargs):
+                    # Filter out kwargs that aren't fields in the dataclass
+                    filtered_kwargs = {k: v for k, v in kwargs.items() if k in field_names}
+                    # Call the original __init__ with filtered keyword arguments
+                    orig_init(self, **filtered_kwargs)
+                
+                # Replace the __init__ method
+                dc_cls.__init__ = __init__
+                
+                # Add a marker to indicate this class uses kw_only
+                setattr(dc_cls, '_kw_only', True)
+            
+            return dc_cls
+        
+        # If called with a class, apply the decorator directly
+        if args and isinstance(args[0], type):
+            return wrap(args[0])
+        
+        # Otherwise, return the decorator
+        return wrap
+    
+
 from enum import Enum
 from .exceptions import InvalidColorValueError
 import uuid
-from dataclasses import field
+
 from . import validate_node, validate_edge
 
 
@@ -80,7 +135,7 @@ class GroupNodeBackgroundStyle(Enum):
     REPEAT = "repeat"
 
 
-@dataclass
+@version_compatible_dataclass
 class Edge:
     fromNode: str
     toNode: str
@@ -124,14 +179,14 @@ class Edge:
         }
 
 
-@dataclass
+@version_compatible_dataclass
 class GenericNode:
-    type: NodeType
-    x: int
-    y: int
-    width: int
-    height: int
-    color: Color = None
+    type: NodeType = field()
+    x: int = field(default=0)
+    y: int = field(default=0)
+    width: int = field(default=400)
+    height: int = field(default=100)
+    color: Color = field(default=None)
     id: str = field(default_factory=lambda: uuid.uuid4().hex[:16])
 
     def __post_init__(self):
@@ -155,10 +210,10 @@ class GenericNode:
         }
 
 
-@dataclass(kw_only=True)
+@version_compatible_dataclass(kw_only=True)
 class TextNode(GenericNode):
     text: str = field(default="", init=True)
-    type: NodeType = NodeType.TEXT
+    type: NodeType = field(default=NodeType.TEXT)
 
     def __post_init__(self):
         super().__post_init__()
@@ -170,11 +225,11 @@ class TextNode(GenericNode):
         return super().to_dict() | {"text": self.text}
 
 
-@dataclass(kw_only=True)
+@version_compatible_dataclass(kw_only=True)
 class FileNode(GenericNode):
-    file: str
-    type: NodeType = NodeType.FILE
-    subpath: str = None
+    file: str = field(default='')
+    type: NodeType = field(default=NodeType.FILE)
+    subpath: str = field(default=None)
 
     def __post_init__(self):
         super().__post_init__()
@@ -186,10 +241,10 @@ class FileNode(GenericNode):
         return super().to_dict() | {"file": self.file, "subpath": self.subpath}
 
 
-@dataclass(kw_only=True)
+@version_compatible_dataclass(kw_only=True)
 class LinkNode(GenericNode):
-    url: str
-    type: NodeType = NodeType.LINK
+    url: str = field(default='')
+    type: NodeType = field(default=NodeType.LINK)
 
     def __post_init__(self):
         super().__post_init__()
@@ -201,12 +256,12 @@ class LinkNode(GenericNode):
         return super().to_dict() | {"url": self.url}
 
 
-@dataclass(kw_only=True)
+@version_compatible_dataclass(kw_only=True)
 class GroupNode(GenericNode):
-    type: NodeType = NodeType.GROUP
-    label: str = None
-    background: str = None
-    backgroundStyle: GroupNodeBackgroundStyle = None
+    type: NodeType = field(default=NodeType.GROUP)
+    label: str = field(default=None)
+    background: str = field(default=None)
+    backgroundStyle: GroupNodeBackgroundStyle = field(default=None)
 
     def __post_init__(self):
         super().__post_init__()
