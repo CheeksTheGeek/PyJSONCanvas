@@ -1,3 +1,5 @@
+
+
 # PyJSONCanvas
 
 PyJSONCanvas is a Python library for working with JSON Canvas (previously known as Obsidian Canvas) files. It provides a simple and intuitive API for creating, editing, and manipulating canvas objects, nodes, and edges.
@@ -18,6 +20,8 @@ You can install PyJSONCanvas using pip:
 ```
 pip install PyJSONCanvas
 ```
+
+PyJSONCanvas requires Python 3.9 or higher.
 
 ## Usage
 
